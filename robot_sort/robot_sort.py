@@ -81,11 +81,13 @@ class SortingRobot:
         Turn on the robot's light
         """
         self._light = "ON"
+
     def set_light_off(self):
         """
         Turn off the robot's light
         """
         self._light = "OFF"
+
     def light_is_on(self):
         """
         Returns True if the robot's light is on and False otherwise.
@@ -96,15 +98,44 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+
+        # Bubble sort, both ascending and descending.
+        while not self.light_is_on():  # If light is off, turn it on to begin sorting
+            self.set_light_on()
+
+            #Ascending sort
+            while self.can_move_right():    # Go right to start
+                self.swap_item()            # Robot picks up current position
+                self.move_right()           # Move right again
+
+                if self.compare_item() > 0:  # Compare held item with what's in front
+                    self.swap_item()        # Swap the items if compare says to
+                    self.set_light_off()    # Light off - a swap happened
+
+                self.move_left()            # Move back - left
+                self.swap_item()            # Place current item down
+                self.move_right()           # Move back - right
+
+            #Descending sort
+            while self.can_move_left():     # At the end, go backwards
+                self.swap_item()            # Rights are swapped for lefts
+                self.move_left()            # Move back - left
+
+                if self.compare_item() < 0:  # Move back - right
+                    self.swap_item()        # Swap the items if compare says to
+                    self.set_light_off()    # Light off - a swap happened
+
+                self.move_right()           # Move back - right
+                self.swap_item()            # Place current item down
+                self.move_left()            # Move back - left
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1,
+         45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
     robot = SortingRobot(l)
 
